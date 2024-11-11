@@ -1,12 +1,21 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Login = () => {
+  const { loginUser } = useContext(AuthContext);
 
-    const handleLogin = e => {
-        e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-    }
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    loginUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => console.log(error.message));
+  };
 
   return (
     <div className="hero bg-base-200 min-h-screen ">
@@ -48,7 +57,9 @@ const Login = () => {
             <div className="form-control mt-6">
               <button className="btn btn-primary">Login</button>
             </div>
-            <p className="mt-2">New User? Please <Link to={"/register"}>Register</Link></p>
+            <p className="mt-2">
+              New User? Please <Link to={"/register"}>Register</Link>
+            </p>
           </form>
         </div>
       </div>
